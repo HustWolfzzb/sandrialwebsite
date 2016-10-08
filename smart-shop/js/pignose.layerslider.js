@@ -194,4 +194,46 @@
 									complete : function() {
 										$(this).children('li').slice(0, index).appendTo($this);
 										$(this).css({marginLeft : -_this[$this.data('type')].offset - _this[$this.data('type')].widthOnce + 'px'});
+										if(typeof _this.settings.afterMoved === 'function') _this.settings.afterMoved();
+									}
+								});
+							}, time);
+							time += _this.settings.diffTime;
+						});
+					}
+					else if(direction == 'left') {
+						_this.currIdx = (_this.currIdx - index);
+						if(_this.currIdx < 0) _this.currIdx = _this.slide.length + _this.currIdx;
+						this.$slide.add(this.$script).each(function() {
+							var $this = $(this);
+							setTimeout(function() {
+								$this.stop(true, true).animate({marginLeft : -(_this[$this.data('type')].offset + _this[$this.data('type')].widthOnce * (1 - index)) + 'px'}, {
+									duration : _this.settings.speed,
+									easing   : _this.settings.easing,
+									complete : function() {
+										$(this).children('li').slice(-index).prependTo($this);
+										$(this).css({marginLeft : -_this[$this.data('type')].offset - _this[$this.data('type')].widthOnce + 'px'});
+										if(typeof _this.settings.afterMoved === 'function') _this.settings.afterMoved();
+									}
+								});
+							}, time);
+							time += _this.settings.diffTime;
+						});
+					}
 
+					if(_this.settings.pagination === true) {
+						this.$pagination.children('.btn-page').eq(_this.currIdx).addClass('on').siblings('.on').removeClass('on');
+					}
+				}
+			}
+		};
+
+		if(pignoseLayerSlider[options]) {
+			return pignoseLayerSlider[options].apply(this, Array.prototype.slice.call(arguments, 1));
+		} else if (typeof options === 'object' || !options) {
+			return pignoseLayerSlider.init.apply(this, arguments);
+		} else {
+			console.log('Occurred error of an null method call');
+		}
+	};
+})(jQuery)

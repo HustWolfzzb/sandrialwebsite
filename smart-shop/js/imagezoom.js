@@ -120,4 +120,3 @@
     $('[data-imagezoom]').imageZoom();
   });
 })(jQuery);
-
